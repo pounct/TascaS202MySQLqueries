@@ -106,6 +106,16 @@ WHERE
 
 
 9. Retorna un llistat amb tots els alumnes que s'han matriculat en alguna assignatura durant el curs escolar 2018/2019.
+SELECT DISTINCT
+    persona.nombre,
+    persona.apellido1,
+    persona.apellido2
+FROM
+    alumno_se_matricula_asignatura
+JOIN persona ON alumno_se_matricula_asignatura.id_alumno = persona.id
+JOIN curso_escolar ON alumno_se_matricula_asignatura.id_curso_escolar = curso_escolar.id
+WHERE
+    curso_escolar.anyo_inicio = 2018 AND curso_escolar.anyo_fin = 2019;
 
 
 Resol les 6 següents consultes utilitzant les clàusules LEFT JOIN i RIGHT JOIN.///////////////////////////
