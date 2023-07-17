@@ -242,8 +242,32 @@ JOIN fabricante ON producto.codigo_fabricante = fabricante.codigo AND fabricante
 
 
 28. Retorna un llistat amb tots els productes dels fabricants Asus, Hewlett-Packardy Seagate. Sense utilitzar l'operador IN.
+SELECT
+    producto.*
+FROM
+    producto
+JOIN fabricante ON producto.codigo_fabricante = fabricante.codigo AND(
+        fabricante.nombre = 'Asus' OR fabricante.nombre = 'Hewlett-Packard' OR fabricante.nombre = 'Seagate'
+    );
+
+
 29. Retorna un llistat amb tots els productes dels fabricants Asus, Hewlett-Packardy Seagate. Fent servir l'operador IN.
+SELECT
+    producto.*
+FROM
+    producto
+JOIN fabricante ON producto.codigo_fabricante = fabricante.codigo AND fabricante.nombre IN('Asus', 'Hewlett-Packard', 'Seagate');
+
+
 30. Retorna un llistat amb el nom i el preu de tots els productes dels fabricants el nom dels quals acabi per la vocal e.
+SELECT
+    producto.nombre,
+    producto.precio
+FROM
+    producto
+JOIN fabricante ON producto.codigo_fabricante = fabricante.codigo AND fabricante.nombre LIKE '%e';
+
+
 31. Retorna un llistat amb el nom i el preu de tots els productes el nom de fabricant dels quals contingui el caràcter w en el seu nom.
 32. Retorna un llistat amb el nom de producte, preu i nom de fabricant, de tots els productes que tinguin un preu major o igual a 180 €. Ordena el resultat, en primer lloc, pel preu (en ordre descendent) i, en segon lloc, pel nom (en ordre ascendent).
 33. Retorna un llistat amb el codi i el nom de fabricant, solament d'aquells fabricants que tenen productes associats en la base de dades.
