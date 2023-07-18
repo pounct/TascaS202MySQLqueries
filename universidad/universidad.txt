@@ -122,24 +122,48 @@ Resol les 6 següents consultes utilitzant les clàusules LEFT JOIN i RIGHT JOIN
 
 
 1. Retorna un llistat amb els noms de tots els professors/es i els departaments que tenen vinculats. El llistat també ha de mostrar aquells professors/es que no tenen cap departament associat. El llistat ha de retornar quatre columnes, nom del departament, primer cognom, segon cognom i nom del professor/a. El resultat estarà ordenat alfabèticament de menor a major pel nom del departament, cognoms i el nom.
+
 SELECT
-    persona.nombre AS nom_profesor,
-    departamento.nombre AS nom_departamento
-FROM
-    profesor
-JOIN persona ON profesor.id_profesor = persona.id
-LEFT JOIN departamento ON profesor.id_departamento = departamento.id
-SELECT
-    persona.nombre AS nom_profesor,
-    departamento.nombre AS nom_departamento
+    departamento.nombre AS nom_departamento,
+    CONCAT(
+        persona.apellido1,
+        persona.apellido2
+    ) AS cognoms_profesor,
+    persona.nombre AS nom_profesor
 FROM
     persona
-JOIN profesor ON persona.id = profesor.id_profesor
-LEFT JOIN departamento ON profesor.id_departamento IN(departamento.id, NULL);
+LEFT JOIN profesor ON persona.id = profesor.id_profesor
+LEFT JOIN departamento ON profesor.id_departamento = departamento.id
+WHERE
+    persona.tipo = 'profesor'
+ORDER BY
+    departamento.nombre,
+    cognoms_profesor,
+    persona.nombre;
 
 
 2. Retorna un llistat amb els professors/es que no estan associats a un departament.
+SELECT
+    departamento.nombre AS nom_departamento,
+    CONCAT(
+        persona.apellido1,
+        persona.apellido2
+    ) AS cognoms_profesor,
+    persona.nombre AS nom_profesor
+FROM
+    persona
+LEFT JOIN profesor ON persona.id = profesor.id_profesor
+LEFT JOIN departamento ON profesor.id_departamento = departamento.id
+WHERE
+    profesor.id_departamento IS NULL AND persona.tipo = 'profesor'
+ORDER BY
+    departamento.nombre,
+    cognoms_profesor,
+    persona.nombre;
+
+
 3. Retorna un llistat amb els departaments que no tenen professors/es associats.
+
 4. Retorna un llistat amb els professors/es que no imparteixen cap assignatura.
 5. Retorna un llistat amb les assignatures que no tenen un professor/a assignat.
 6. Retorna un llistat amb tots els departaments que no han impartit assignatures en cap curs escolar.
