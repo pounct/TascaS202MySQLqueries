@@ -228,7 +228,9 @@ WHERE
     asignatura.id IS NULL
 
 
+
 Consultes resum:                                       ///////////////////////////////////////////////////////
+
 
 
 1. Retorna el nombre total d'alumnes que hi ha.
@@ -241,13 +243,16 @@ WHERE
     persona.tipo + 'alumno';
 
 
+
 2. Calcula quants alumnes van néixer en 1999.
+
 SELECT
     COUNT(persona.id)
 FROM
     persona
 WHERE
     persona.tipo + 'alumno' AND YEAR(persona.fecha_nacimiento) = 1999;
+
 
 
 3. Calcula quants professors/es hi ha en cada departament. El resultat només ha de mostrar dues columnes, una amb el nom del departament i una altra amb el nombre de professors/es que hi ha en aquest departament. El resultat només ha d'incloure els departaments que tenen professors/es associats i haurà d'estar ordenat de major a menor pel nombre de professors/es.
@@ -333,13 +338,49 @@ DESC;
 
 8. Retorna un llistat que mostri quants alumnes s'han matriculat d'alguna assignatura en cadascun dels cursos escolars. El resultat haurà de mostrar dues columnes, una columna amb l'any d'inici del curs escolar i una altra amb el nombre d'alumnes matriculats.
 
+SELECT
+    curso_escolar.anyo_inicio,
+    COUNT(
+        alumno_se_matricula_asignatura.id_asignatura
+    )
+FROM
+    asignatura
+LEFT JOIN alumno_se_matricula_asignatura ON asignatura.id = alumno_se_matricula_asignatura.id_asignatura
+JOIN curso_escolar ON alumno_se_matricula_asignatura.id_curso_escolar = curso_escolar.id
+GROUP BY
+    (asignatura.id)
+ORDER BY
+    COUNT(
+        alumno_se_matricula_asignatura.id_asignatura
+    )
+DESC;
+
+
 
 9. Retorna un llistat amb el nombre d'assignatures que imparteix cada professor/a. El llistat ha de tenir en compte aquells professors/es que no imparteixen cap assignatura. El resultat mostrarà cinc columnes: id, nom, primer cognom, segon cognom i nombre d'assignatures. El resultat estarà ordenat de major a menor pel nombre d'assignatures.
+
+SELECT
+    profesor.id_profesor,
+    persona.nombre,
+    persona.apellido1,
+    persona.apellido2,
+    COUNT(asignatura.id) AS nombre_asignatura
+FROM
+    profesor
+JOIN persona ON profesor.id_profesor = persona.id
+LEFT JOIN asignatura ON profesor.id_profesor = asignatura.id_profesor
+GROUP BY
+    profesor.id_profesor
+ORDER BY
+    COUNT(asignatura.id)
+DESC;
+
+
 
 10. Retorna totes les dades de l'alumne/a més jove.
 
 SELECT
-    persona.nombre
+    *
 FROM
     persona
 WHERE
